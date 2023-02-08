@@ -34,7 +34,9 @@ def translate(text, source, target):
     # Translate the text
     translated_text = ''
     for chunk in chunks:
-        translated = GoogleTranslator(source='en', target='fa').translate(text=chunk)
+        if source is None:
+            source = 'auto'
+        translated = GoogleTranslator(source=source, target=target).translate(text=chunk)
         translated_text += translated + "\n"
 
     # Remove extra new lines
@@ -54,7 +56,7 @@ if __name__ == "__main__":
     elif len(args) == 2:
         print("Please pass a target language")
         sys.exit(1)
-    elif len(args) > 3:
+    elif len(args) >= 3:
         text = str(open(args[1], encoding='utf8', newline='\n').read()).strip()
 
         # Handling `<filename> <target>`
